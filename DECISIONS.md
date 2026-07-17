@@ -121,6 +121,19 @@ posts in the pool's currency. If one variant's central stock ever holds value
 in two currencies, dispatch posting is blocked with a clear error until
 reconciled — mixing currencies in one average would fabricate numbers.
 
+## D-020 — Manual Roznamcha entries offset equity
+A manual drawer entry has no source document, but double-entry demands a
+balanced posting. Manual cash in/out posts against `3000 Opening Balances /
+Equity` (owner injections and drawings). The description and bill refs carry
+the business detail; nothing ever hits the drawer unbalanced.
+
+## D-021 — Saraf-paid office expenses and warehouse payments auto-register
+Any money that moves through a saraf (warehouse payment via hawala, office
+expense paid by the saraf) automatically writes a **linked, posted**
+`saraf_transactions` row (the hawala register). Linked rows carry no journal
+of their own — the source document's entry is the ledger truth — and cannot
+be posted independently.
+
 ## D-014 — Eastern Arabic digits deferred
 All numbers render LTR with Western digits per spec; `fmtMoney`/`fmtQty` are
 the single funnel where an Eastern-digits toggle can be added later. Same for
