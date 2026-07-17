@@ -1,0 +1,42 @@
+{
+  "name": "sarai-erp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SARAI ERP — dual-currency, bilingual (EN/PS), double-entry import & distribution ERP",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "db:test": "node scripts/run-sql-tests.mjs",
+    "db:test:keep": "node scripts/run-sql-tests.mjs --keep"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.10.0",
+    "@supabase/ssr": "^0.6.1",
+    "@supabase/supabase-js": "^2.49.0",
+    "@tanstack/react-query": "^5.66.0",
+    "@tanstack/react-table": "^8.21.0",
+    "decimal.js": "^10.5.0",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/pg": "^8.11.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.20",
+    "embedded-postgres": "^18.4.0-beta.17",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^15.1.6",
+    "pg": "^8.13.0",
+    "postcss": "^8.5.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.0"
+  }
+}

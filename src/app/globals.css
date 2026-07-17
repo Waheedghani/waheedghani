@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ERP density baseline — 13px, tight rhythm, neutral grays */
+@layer base {
+  html {
+    font-size: 13px;
+  }
+  body {
+    @apply bg-surface text-ink font-sans text-base antialiased;
+  }
+  input,
+  select,
+  textarea {
+    @apply text-base;
+  }
+  ::placeholder {
+    @apply text-ink-faint;
+  }
+}
+
+@layer components {
+  /* -------- compact field grid (label above input, 4–6 per row) -------- */
+  .field {
+    @apply flex flex-col gap-0.5 min-w-0;
+  }
+  .field-label {
+    @apply text-xs text-ink-soft font-medium leading-tight;
+  }
+  .input {
+    @apply h-7 border border-line bg-white px-1.5 rounded-[2px] outline-none
+      focus:border-accent focus:ring-1 focus:ring-accent/30
+      disabled:bg-surface-sunken disabled:text-ink-faint;
+  }
+  textarea.input {
+    @apply h-auto py-1;
+  }
+  .btn {
+    @apply inline-flex items-center gap-1.5 h-7 px-2.5 rounded-[2px] border text-base
+      select-none whitespace-nowrap disabled:opacity-45 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply btn bg-accent border-accent text-white hover:bg-accent-hover;
+  }
+  .btn-secondary {
+    @apply btn bg-white border-line text-ink hover:bg-surface-sunken;
+  }
+  .btn-danger {
+    @apply btn bg-white border-status-reversed text-status-reversed hover:bg-status-reversedBg;
+  }
+  .panel {
+    @apply bg-surface-panel border border-line rounded-[3px];
+  }
+  .panel-title {
+    @apply px-3 py-1.5 border-b border-line-soft text-sm font-semibold text-ink;
+  }
+
+  /* -------- dense data tables -------- */
+  .erp-table {
+    @apply w-full border-collapse text-base;
+  }
+  .erp-table th {
+    @apply sticky top-0 z-10 bg-surface-sunken border-b border-line px-2 h-row
+      text-left font-semibold text-ink-soft whitespace-nowrap align-middle;
+  }
+  .erp-table td {
+    @apply border-b border-line-soft px-2 h-row align-middle whitespace-nowrap;
+  }
+  .erp-table tbody tr {
+    @apply hover:bg-accent-soft/60 cursor-default;
+  }
+  .erp-table tfoot td {
+    @apply border-t-2 border-line-strong bg-surface-sunken font-semibold h-row px-2;
+  }
+  .num {
+    @apply text-right tabular-nums;
+    direction: ltr;
+  }
+
+  /* -------- status chips: small squared, per spec §10.5 -------- */
+  .chip {
+    @apply inline-flex items-center h-[18px] px-1.5 rounded-[2px] text-xs font-medium border;
+  }
+}
+
+/* ---------------- print stylesheets: black & white business documents ---- */
+@media print {
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-page {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .erp-table th,
+  .erp-table td {
+    border: 1px solid #000 !important;
+    background: #fff !important;
+    color: #000 !important;
+  }
+  @page {
+    size: A4;
+    margin: 14mm 12mm;
+  }
+}
