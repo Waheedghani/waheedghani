@@ -206,6 +206,9 @@ CREATE TRIGGER trg_landed_costs_guard BEFORE UPDATE OR DELETE ON landed_costs
 -- ---------------------------------------------------------------------------
 CREATE TABLE stock_movements (
   id            uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  -- monotonic insertion order: created_at is transaction-fixed, so ties are
+  -- possible; seq gives HC-09 (retro stock verification) a total order
+  seq           bigint GENERATED ALWAYS AS IDENTITY,
   movement_date date NOT NULL,
   variant_id    uuid NOT NULL REFERENCES product_variants (id),
   warehouse_id  uuid NULL REFERENCES warehouses (id),

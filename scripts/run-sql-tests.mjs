@@ -65,7 +65,7 @@ async function main() {
     user: "postgres",
     password: "postgres",
     port: PORT,
-    persistent: false,
+    persistent: true, // cleanup is handled below so --keep can work
     onLog: () => {},
     onError: () => {},
   });

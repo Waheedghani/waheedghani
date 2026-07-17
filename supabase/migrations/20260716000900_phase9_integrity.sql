@@ -183,10 +183,10 @@ BEGIN
   -- Retro-verify: central stock never dipped below zero at any point
   SELECT jsonb_agg(j), count(*) INTO v_bad, v_n FROM (
     SELECT jsonb_build_object('variant_id', variant_id, 'at', created_at,
-                              'running_qty', run) AS j
+                              'seq', seq, 'running_qty', run) AS j
       FROM (
-        SELECT variant_id, created_at,
-               sum(qty) OVER (PARTITION BY variant_id ORDER BY created_at, id) AS run
+        SELECT variant_id, created_at, seq,
+               sum(qty) OVER (PARTITION BY variant_id ORDER BY seq) AS run
           FROM stock_movements
          WHERE warehouse_id IS NULL) r
      WHERE r.run < 0
