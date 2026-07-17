@@ -466,7 +466,9 @@ GRANT EXECUTE ON FUNCTION fn_reverse_entry(uuid, text) TO authenticated;
 -- ---------------------------------------------------------------------------
 -- Account balance helpers — ALL balance math happens here, in SQL.
 -- ---------------------------------------------------------------------------
-CREATE OR REPLACE VIEW v_account_balances AS
+-- security_invoker: the view must respect the querying user's RLS, never the
+-- view owner's (a plain view would silently bypass RLS on Supabase).
+CREATE OR REPLACE VIEW v_account_balances WITH (security_invoker = true) AS
 SELECT a.id AS account_id, a.code, a.name, a.name_ps, a.type,
        l.currency,
        sum(l.debit)  AS total_debit,

@@ -24,6 +24,7 @@ INSERT INTO accounts (code, name, name_ps, type, fixed_currency) VALUES
   ('5120', 'Import Expense — Customs',   'د وارداتو لګښت — ګمرک',       'import_expense', NULL),
   ('5130', 'Import Expense — Transport', 'د وارداتو لګښت — ټرانسپورټ',  'import_expense', NULL),
   ('5140', 'Import Expense — Other',     'د وارداتو لګښت — نور',        'import_expense', NULL),
+  ('5190', 'Import Expenses Capitalized (contra)', 'د وارداتو لګښت — سرمایه شوی', 'import_expense', NULL),
   ('5200', 'Waste / Loss in Transit',    'ضایعات په لار کې',        'waste_expense',  NULL),
   ('6000', 'Office — Rent',              'دفتر — کرایه',            'office_expense', NULL),
   ('6010', 'Office — Salaries',          'دفتر — معاشونه',          'office_expense', NULL),

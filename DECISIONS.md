@@ -86,6 +86,41 @@ nothing else. They can write exactly two things: dispatch arrival
 confirmations and buyer pickup records (both scoped to their warehouse by RLS
 `WITH CHECK`).
 
+## D-015 — Landed-cost / waste reconciliation model
+The spec's postings ("route expense: DR 5100 / CR cash" and "truck received:
+DR Inventory / CR Transit at landed cost"; "waste: DR 5200 / CR Transit")
+cannot all hold at face value — transit would never drain to zero. The model
+that satisfies every stated posting AND nets exactly:
+`L = (c·denom + E) / denom` where `denom = expected − waste`, waste is
+expensed to 5200 **at invoice unit cost c**, transit is relieved at `c`, and
+the expense share `r·(L−c)` is credited to `5190 Import Expenses Capitalized`
+(contra to the 5100s). Waste still inflates L because E spreads over fewer
+units; the 4-dp rounding remainder lands in 5190, never lost. Verified exact
+in phase-4 tests (transit = 0.0000 after full receipt).
+
+## D-016 — FX rate semantics
+`fx_rate` is always **AFN per 1 USD** (the bazaar quote). AFN→USD divides,
+USD→AFN multiplies. One rule everywhere; the rate is stored on every
+cross-currency line.
+
+## D-017 — Stock levels are a plain view
+`v_stock_levels` is a live view over `stock_movements` (not materialized) —
+it cannot drift, so HC-03 checks only the business rule (no negative stock),
+not view staleness. All views are `security_invoker = true` so RLS of the
+querying user always applies.
+
+## D-018 — 'payable' route expenses
+Route expenses with `paid_via = 'payable'` credit the **order's supplier**
+payable account (freight billed by the supplier). Third-party freight
+creditors would be a new party type — out of v1 scope.
+
+## D-019 — Central inventory cost pool: moving average per variant/currency
+`stock_movements` carries `unit_cost`/`cost_currency` for company stock:
+receives at landed cost, dispatches at the pool's moving-average cost. COGS
+posts in the pool's currency. If one variant's central stock ever holds value
+in two currencies, dispatch posting is blocked with a clear error until
+reconciled — mixing currencies in one average would fabricate numbers.
+
 ## D-014 — Eastern Arabic digits deferred
 All numbers render LTR with Western digits per spec; `fmtMoney`/`fmtQty` are
 the single funnel where an Eastern-digits toggle can be added later. Same for
