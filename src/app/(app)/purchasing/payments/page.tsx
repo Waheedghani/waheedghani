@@ -120,7 +120,7 @@ export default function SupplierPaymentsPage() {
           if (r.status === "draft") setConfirmId(r.id);
         }}
         columns={[
-          textCol("doc_no", "doc_no", (r) => r.doc_no ?? "(draft)", 110),
+          textCol("doc_no", "doc_no", (r) => r.doc_no ?? `(${lbl("draft")})`, 110),
           dateCol("payment_date", "date", (r) => r.payment_date),
           textCol("supplier", "supplier", (r) => r.suppliers?.name, 180),
           textCol("kind", "kind", (r) => r.kind, 100),

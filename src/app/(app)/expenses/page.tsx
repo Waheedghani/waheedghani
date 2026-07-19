@@ -108,7 +108,7 @@ export default function ExpensesPage() {
           </button>
         }
         columns={[
-          textCol("doc_no", "doc_no", (r) => r.doc_no ?? "(draft)", 110),
+          textCol("doc_no", "doc_no", (r) => r.doc_no ?? `(${lbl("draft")})`, 110),
           dateCol("expense_date", "date", (r) => r.expense_date),
           textCol("category", "category", (r) => r.expense_categories?.name, 120),
           textCol("description", "description", (r) => r.description, 220),

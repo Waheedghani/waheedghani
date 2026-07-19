@@ -112,7 +112,7 @@ export default function SarafTransactionsPage() {
           </button>
         }
         columns={[
-          textCol("doc_no", "doc_no", (r) => r.doc_no ?? "(draft)", 110),
+          textCol("doc_no", "doc_no", (r) => r.doc_no ?? `(${lbl("draft")})`, 110),
           dateCol("txn_date", "date", (r) => r.txn_date),
           textCol("saraf", "saraf", (r) => r.sarafs?.name, 150),
           {

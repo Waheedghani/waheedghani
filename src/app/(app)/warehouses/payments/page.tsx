@@ -116,7 +116,7 @@ export default function WarehousePaymentsPage() {
           </button>
         }
         columns={[
-          textCol("doc_no", "doc_no", (r) => r.doc_no ?? "(draft)", 110),
+          textCol("doc_no", "doc_no", (r) => r.doc_no ?? `(${lbl("draft")})`, 110),
           dateCol("payment_date", "date", (r) => r.payment_date),
           textCol("warehouse", "warehouse", (r) => r.warehouses?.name, 170),
           textCol("method", "method", (r) => r.method, 70),

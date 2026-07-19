@@ -1,5 +1,7 @@
 "use client";
 
+import { lbl } from "@/lib/labels";
+
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { DataTable } from "@/components/ui/DataTable";
@@ -45,7 +47,7 @@ export default function DispatchesPage() {
         </button>
       }
       columns={[
-        textCol("doc_no", "doc_no", (r) => r.doc_no ?? "(draft)", 120),
+        textCol("doc_no", "doc_no", (r) => r.doc_no ?? `(${lbl("draft")})`, 120),
         dateCol("dispatch_date", "date", (r) => r.dispatch_date),
         textCol("warehouse", "warehouse", (r) => r.warehouses?.name, 200),
         textCol("warehouse_ps", "name_ps", (r) => r.warehouses?.name_ps, 140),

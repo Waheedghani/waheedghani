@@ -1,5 +1,7 @@
 "use client";
 
+import { lbl } from "@/lib/labels";
+
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { DataTable } from "@/components/ui/DataTable";
@@ -55,7 +57,7 @@ export default function PurchaseInvoicesPage() {
         total_amount: fmtMoney(sumD(rows.map((r) => r.total_amount))),
       }}
       columns={[
-        textCol("doc_no", "doc_no", (r) => r.doc_no ?? "(draft)", 110),
+        textCol("doc_no", "doc_no", (r) => r.doc_no ?? `(${lbl("draft")})`, 110),
         dateCol("invoice_date", "date", (r) => r.invoice_date),
         textCol("supplier", "supplier", (r) => r.suppliers?.name, 180),
         textCol("supplier_inv", "supplier_invoice_no", (r) => r.invoice_number_supplier, 120),

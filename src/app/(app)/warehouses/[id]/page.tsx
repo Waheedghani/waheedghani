@@ -16,7 +16,7 @@ import { useVariants } from "@/lib/lookups";
 import { useAuth } from "@/components/AuthProvider";
 import { fmtDate } from "@/lib/dates";
 import { fmtMoney, fmtQty, type Currency } from "@/lib/money";
-import type { LabelKey } from "@/lib/labels";
+import { lbl, type LabelKey } from "@/lib/labels";
 import type { Warehouse } from "@/lib/types";
 
 const TABS: Array<{ id: string; k: LabelKey }> = [
@@ -199,7 +199,7 @@ export default function WarehousePage({ params }: { params: Promise<{ id: string
             {(dispatches ?? []).map((d) => (
               <tr key={String(d.id)} className="cursor-pointer"
                 onDoubleClick={() => router.push(`/warehouses/dispatches/${d.id}`)}>
-                <td>{String(d.doc_no ?? "(draft)")}</td>
+                <td>{String(d.doc_no ?? `(${lbl("draft")})`)}</td>
                 <td className="num">{fmtDate(String(d.dispatch_date))}</td>
                 <td>{String(d.currency)}</td>
                 <td><StatusChip status={String(d.status)} /></td>
@@ -221,7 +221,7 @@ export default function WarehousePage({ params }: { params: Promise<{ id: string
           <tbody>
             {(payments ?? []).map((p) => (
               <tr key={String(p.id)}>
-                <td>{String(p.doc_no ?? "(draft)")}</td>
+                <td>{String(p.doc_no ?? `(${lbl("draft")})`)}</td>
                 <td className="num">{fmtDate(String(p.payment_date))}</td>
                 <td>{String(p.method)}</td>
                 <td>{String(p.hawala_number ?? "")}</td>

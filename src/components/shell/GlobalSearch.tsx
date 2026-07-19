@@ -63,11 +63,11 @@ export function GlobalSearch() {
     for (const s of sup.data ?? []) results.push({ kind: "Supplier", label: s.name, sub: s.name_ps, href: `/purchasing/suppliers?id=${s.id}` });
     for (const s of wh.data ?? []) results.push({ kind: "Warehouse", label: s.name, sub: s.name_ps, href: `/warehouses/${s.id}` });
     for (const s of srf.data ?? []) results.push({ kind: "Saraf", label: s.name, sub: s.name_ps, href: `/sarafs?id=${s.id}` });
-    for (const d of pi.data ?? []) results.push({ kind: "Purchase Invoice", label: d.doc_no ?? "(draft)", sub: d.status, href: `/purchasing/invoices/${d.id}` });
-    for (const d of dsp.data ?? []) results.push({ kind: "Dispatch", label: d.doc_no ?? "(draft)", sub: d.status, href: `/warehouses/dispatches/${d.id}` });
+    for (const d of pi.data ?? []) results.push({ kind: "Purchase Invoice", label: d.doc_no ?? `(${lbl("draft")})`, sub: d.status, href: `/purchasing/invoices/${d.id}` });
+    for (const d of dsp.data ?? []) results.push({ kind: "Dispatch", label: d.doc_no ?? `(${lbl("draft")})`, sub: d.status, href: `/warehouses/dispatches/${d.id}` });
     for (const d of ord.data ?? []) results.push({ kind: "Order", label: d.doc_no, sub: d.status, href: `/orders/${d.id}` });
-    for (const d of pay.data ?? []) results.push({ kind: "Warehouse Payment", label: d.doc_no ?? "(draft)", sub: d.status, href: `/warehouses/payments/${d.id}` });
-    for (const d of exp.data ?? []) results.push({ kind: "Expense", label: d.doc_no ?? "(draft)", sub: d.status, href: `/expenses/${d.id}` });
+    for (const d of pay.data ?? []) results.push({ kind: "Warehouse Payment", label: d.doc_no ?? `(${lbl("draft")})`, sub: d.status, href: `/warehouses/payments/${d.id}` });
+    for (const d of exp.data ?? []) results.push({ kind: "Expense", label: d.doc_no ?? `(${lbl("draft")})`, sub: d.status, href: `/expenses/${d.id}` });
 
     setHits(results.slice(0, 12));
     setOpen(true);
