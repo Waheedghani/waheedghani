@@ -13,6 +13,7 @@ DECLARE
   v_manual  uuid;
   v_cnt     int;
   v_row     record;
+  v_usd     numeric;
 BEGIN
   PERFORM tests.login(office_id);
 
@@ -44,13 +45,17 @@ BEGIN
   ------------------------------------------------------------------
   -- Day close: unexplained variance rejected; exact count closes
   ------------------------------------------------------------------
-  PERFORM tests.throws(
-    'SELECT fn_close_roznamcha_day(DATE ''2026-07-18'', 999.0000, -8500.0000)',
+  -- the USD balance as of 07-18 depends on the calendar day this suite runs
+  -- (phase 1's reversal is correctly dated CURRENT_DATE), so read it
+  v_usd := fn_account_balance((SELECT id FROM accounts WHERE code = '1001'), 'USD', DATE '2026-07-18');
+
+  PERFORM tests.throws(format(
+    'SELECT fn_close_roznamcha_day(DATE ''2026-07-18'', 999.0000, %s)', v_usd),
     '%unexplained variance%');
 
   -- variance WITH explanation is allowed (documented difference)
   -- (do not actually close with variance here — close exact)
-  PERFORM fn_close_roznamcha_day(DATE '2026-07-18', 579875.5000, -8500.0000);
+  PERFORM fn_close_roznamcha_day(DATE '2026-07-18', 579875.5000, v_usd);
   PERFORM tests.ok(EXISTS (SELECT 1 FROM roznamcha_days WHERE day_date = DATE '2026-07-18' AND status = 'closed'),
     'day closed');
   PERFORM tests.eq((SELECT variance_afn FROM roznamcha_days WHERE day_date = DATE '2026-07-18'), 0, 'zero AFN variance');
