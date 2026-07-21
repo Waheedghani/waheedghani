@@ -2,17 +2,20 @@ import { labels, type LabelKey } from "@/lib/labels";
 
 /**
  * Bilingual label: English first, Pashto after a separator, correct RTL.
- * The standard rendering pattern for every label in the app (spec §9).
+ * Renders as inline text so long labels wrap within their container instead
+ * of overflowing (short labels in buttons/table headers still sit on one
+ * line because they fit). Each language span carries its own dir/lang so the
+ * bidi isolation is correct.
  */
 export function L({ k, sep = "/" }: { k: LabelKey; sep?: string }) {
   const l = labels[k];
   return (
-    <span className="inline-flex items-baseline gap-1 whitespace-nowrap">
+    <span>
       <span>{l.en}</span>
-      <span aria-hidden className="text-ink-faint">
+      <span aria-hidden className="text-ink-faint mx-1">
         {sep}
       </span>
-      <span dir="rtl" lang="ps" className="font-pashto text-[1.07em] leading-none">
+      <span dir="rtl" lang="ps" className="font-pashto text-[1.07em]">
         {l.ps}
       </span>
     </span>
