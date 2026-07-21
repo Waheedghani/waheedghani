@@ -78,6 +78,19 @@
     direction: ltr;
   }
 
+  /* slim horizontal scrollbar for the classic module bar overflow */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+  }
+
   /* -------- status chips: small squared, per spec §10.5 -------- */
   .chip {
     @apply inline-flex items-center h-[18px] px-1.5 rounded-[2px] text-xs font-medium border;

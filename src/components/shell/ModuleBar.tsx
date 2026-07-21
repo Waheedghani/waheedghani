@@ -7,6 +7,7 @@ import { navForRole } from "@/lib/nav";
 import { L } from "@/components/L";
 import { labels } from "@/lib/labels";
 import { useAuth } from "@/components/AuthProvider";
+import { LayoutToggle } from "@/components/shell/LayoutToggle";
 
 /**
  * Dark corporate top module bar with dropdown submenus (spec §10.1).
@@ -33,7 +34,7 @@ export function ModuleBar() {
   return (
     <nav ref={barRef} className="bg-header text-header-text no-print select-none">
       <div className="flex items-stretch h-10">
-        <div className="flex items-center gap-2 px-3 border-r border-white/10">
+        <div className="flex items-center gap-2 px-3 border-r border-white/10 shrink-0">
           <span className="font-semibold text-sm tracking-wide text-white">
             {labels.app_name.en}
           </span>
@@ -42,7 +43,7 @@ export function ModuleBar() {
           </span>
         </div>
 
-        <ul className="flex items-stretch">
+        <ul className="flex items-stretch flex-1 min-w-0 overflow-x-auto scrollbar-thin">
           {modules.map((m) => {
             const active =
               pathname === m.href ||
@@ -50,10 +51,10 @@ export function ModuleBar() {
               m.items.some((i) => pathname === i.href || pathname.startsWith(i.href + "/"));
             const hasMenu = m.items.length > 1;
             return (
-              <li key={m.key} className="relative flex">
+              <li key={m.key} className="relative flex shrink-0">
                 {hasMenu ? (
                   <button
-                    className={`px-3 flex items-center gap-1 text-[12.5px] hover:bg-header-hover ${
+                    className={`px-3 flex items-center gap-1 text-[12.5px] whitespace-nowrap hover:bg-header-hover ${
                       active ? "bg-header-active text-white" : ""
                     }`}
                     onClick={() => setOpenKey(openKey === m.key ? null : m.key)}
@@ -67,7 +68,7 @@ export function ModuleBar() {
                 ) : (
                   <Link
                     href={m.href}
-                    className={`px-3 flex items-center text-[12.5px] hover:bg-header-hover ${
+                    className={`px-3 flex items-center text-[12.5px] whitespace-nowrap hover:bg-header-hover ${
                       active ? "bg-header-active text-white" : ""
                     }`}
                   >
@@ -95,13 +96,14 @@ export function ModuleBar() {
           })}
         </ul>
 
-        <div className="ml-auto flex items-center gap-3 px-3 text-xs">
-          <span className="text-header-text/80">
+        <div className="flex items-center gap-3 px-3 text-xs shrink-0 border-l border-white/10">
+          <LayoutToggle tone="light" />
+          <span className="text-header-text/80 hidden lg:inline whitespace-nowrap">
             {profile.full_name} · <L k={profile.role === "warehouse" ? "warehouse_role" : profile.role === "admin" ? "admin" : "office"} />
           </span>
           <button
             onClick={() => void signOut()}
-            className="border border-white/25 px-2 h-6 rounded-[2px] hover:bg-header-hover"
+            className="border border-white/25 px-2 h-6 rounded-[2px] hover:bg-header-hover whitespace-nowrap"
           >
             <L k="sign_out" />
           </button>

@@ -257,6 +257,12 @@ export const labels = {
   admin: { en: "Admin", ps: "اډمین" },
   office: { en: "Office", ps: "دفتر" },
   warehouse_role: { en: "Warehouse Keeper", ps: "د سرای مسوول" },
+  interface: { en: "Interface", ps: "بڼه" },
+  classic_view: { en: "Classic", ps: "کلاسیک" },
+  modern_view: { en: "Modern", ps: "نوی" },
+  collapse_menu: { en: "Collapse menu", ps: "مینو راکمول" },
+  expand_menu: { en: "Expand menu", ps: "مینو غځول" },
+  menu: { en: "Menu", ps: "مینو" },
 
   // ---------------------------------------------------------------- messages
   posting_permanent: {

@@ -4,8 +4,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
 import { ModuleBar } from "@/components/shell/ModuleBar";
+import { Sidebar } from "@/components/shell/Sidebar";
 import { GlobalSearch } from "@/components/shell/GlobalSearch";
 import { useAuth } from "@/components/AuthProvider";
+import { useUiPrefs } from "@/components/UiPrefs";
 import { L } from "@/components/L";
 import { labels, type LabelKey } from "@/lib/labels";
 import { NAV } from "@/lib/nav";
@@ -29,6 +31,7 @@ function crumbsFor(pathname: string): Array<{ label: LabelKey | string; href?: s
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { session, profile, loading, profileMissing } = useAuth();
+  const { layout } = useUiPrefs();
   const router = useRouter();
   const pathname = usePathname();
 
@@ -70,40 +73,57 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
   const crumbs = crumbsFor(pathname);
 
-  return (
-    <div className="min-h-screen flex flex-col">
-      <ModuleBar />
-      <div className="bg-white border-b border-line px-3 h-9 flex items-center gap-3 no-print">
-        <nav className="flex items-center gap-1.5 text-ink-soft min-w-0">
-          <Link href={profile?.role === "warehouse" ? "/portal" : "/"} className="hover:text-accent">
-            <L k="home" />
-          </Link>
-          {crumbs.map((c, i) => (
-            <span key={i} className="flex items-center gap-1.5 min-w-0">
-              <span className="text-line-strong">›</span>
-              {c.href && i < crumbs.length - 1 ? (
-                <Link href={c.href} className="hover:text-accent truncate">
-                  {typeof c.label === "string" && !(c.label in labels) ? (
-                    <span className="font-mono text-xs">{c.label}</span>
-                  ) : (
-                    <L k={c.label as LabelKey} />
-                  )}
-                </Link>
-              ) : typeof c.label === "string" && !(c.label in labels) ? (
-                <span className="font-mono text-xs truncate">{c.label}</span>
-              ) : (
-                <span className="text-ink font-medium">
+  const breadcrumbBar = (
+    <div className="bg-white border-b border-line px-3 h-9 flex items-center gap-3 no-print shrink-0">
+      <nav className="flex items-center gap-1.5 text-ink-soft min-w-0 overflow-hidden">
+        <Link href={profile?.role === "warehouse" ? "/portal" : "/"} className="hover:text-accent shrink-0">
+          <L k="home" />
+        </Link>
+        {crumbs.map((c, i) => (
+          <span key={i} className="flex items-center gap-1.5 min-w-0">
+            <span className="text-line-strong">›</span>
+            {c.href && i < crumbs.length - 1 ? (
+              <Link href={c.href} className="hover:text-accent truncate">
+                {typeof c.label === "string" && !(c.label in labels) ? (
+                  <span className="font-mono text-xs">{c.label}</span>
+                ) : (
                   <L k={c.label as LabelKey} />
-                </span>
-              )}
-            </span>
-          ))}
-        </nav>
-        <div className="ml-auto">
-          <GlobalSearch />
-        </div>
+                )}
+              </Link>
+            ) : typeof c.label === "string" && !(c.label in labels) ? (
+              <span className="font-mono text-xs truncate">{c.label}</span>
+            ) : (
+              <span className="text-ink font-medium">
+                <L k={c.label as LabelKey} />
+              </span>
+            )}
+          </span>
+        ))}
+      </nav>
+      <div className="ml-auto shrink-0">
+        <GlobalSearch />
       </div>
-      <main className="flex-1 p-3 print-page">{children}</main>
+    </div>
+  );
+
+  if (layout === "classic") {
+    return (
+      <div className="min-h-screen flex flex-col overflow-x-hidden">
+        <ModuleBar />
+        {breadcrumbBar}
+        <main className="flex-1 p-3 print-page">{children}</main>
+      </div>
+    );
+  }
+
+  // modern (default): left sidebar + slim top strip
+  return (
+    <div className="min-h-screen flex overflow-x-hidden">
+      <Sidebar />
+      <div className="flex-1 min-w-0 flex flex-col">
+        {breadcrumbBar}
+        <main className="flex-1 p-3 print-page">{children}</main>
+      </div>
     </div>
   );
 }
